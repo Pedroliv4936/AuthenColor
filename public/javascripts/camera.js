@@ -15,7 +15,7 @@ function startup() {
             console.log("error:" + err);
         });
 
-    video.addEventListener('canPlay', function (ev) {
+    video.addEventListener('canplay', function (ev) {
         if (!streaming) {
             height = video.videoHeight / (video.videoWidth / width);
             if (isNaN(height)) {
@@ -55,3 +55,5 @@ function takepicture() {
         photo.setAttribute('src', data);
     }
 }
+
+window.addEventListener('load', startup,false);
