@@ -1,20 +1,22 @@
 <html>
+
 <head>
   <title>AuthenColor</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <script type="text/javascript" src="./javascripts/libs/polyfill.js"></script>
   <script src='.\javascripts\camera.js'></script>
+  <script src='.\javascripts\aruco.js'></script>
+  <script src='.\javascripts\cv.js'></script>
+
 </head>
 
-<body>
-  <h1>AuthenColor</h1>
-  <section class="contentarea">
-    <section class="camera">
-      <video id="video">Video stream not availabe.</video>
-    </section>
-    <section><button id="startbutton">Take Photo</button></section>
-    <canvas id="canvas"></canvas>
-    <section class="output"><img id="photo" alt="The screen capture will appear in this box"></section>
-  </section>
+<body style="font-family: monospace;">
+
+  <section style="margin: 10px;" id="title"><strong>-= Augmented Reality Marker Detector =-</strong></section>
+  <video id="video" autoplay="true" style="display:none;"></video>
+  <canvas id="canvas" style="width:640px; height:480px;"></canvas>
+  <section style="margin: 15px;" id="ref"><strong>Powered by <a
+        href="http://code.google.com/p/js-aruco/">js-aruco</a></strong></section>
 
 </body>
 
