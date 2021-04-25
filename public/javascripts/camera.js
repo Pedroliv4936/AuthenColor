@@ -55,6 +55,7 @@ function tick() {
     var markers = detector.detect(imageData);
     drawCorners(markers);
     drawId(markers);
+    passwordPosition(markers);
   }
 }
 
@@ -111,5 +112,39 @@ function drawId(markers) {
     context.strokeText(markers[i].id, x, y)
   }
 }
+
+function passwordPosition(markers) {
+  var corners, corner;
+  var position = document.getElementById("position");
+  for (i = 0; i !== markers.length; ++i) {
+    corners = markers[i].corners;
+    for (j = 0; j !== corners.length; j++) {
+      corner = corners[j];
+      if (corner.x < 200) {
+        if (corner.y < 160) {
+          position.innerHTML = "Nordeste"
+        } else if (corner.y > 320) {
+          position.innerHTML = "Sudeste"
+        } else position.innerHTML = "Este"
+      } else if (corner.x > 200 && corner.x < 400) {
+        if (corner.y < 160) {
+          position.innerHTML = "Norte"
+        } else if (corner.y > 320) {
+          position.innerHTML = "Sul"
+        } else position.innerHTML = "Centro"
+      } else if (corner.x > 400) {
+        if (corner.y < 160) {
+          position.innerHTML = "Noroeste"
+        } else if (corner.y > 320) {
+          position.innerHTML = "Sudoeste"
+        }
+        position.innerHTML = "Oeste"
+      }
+      console.log("corner x:", corner.x + ",corner y:", corner.y);
+    }
+  }
+}
+
+
 
 window.onload = onLoad;
