@@ -138,9 +138,9 @@ function passwordPosition(markers) {
         } else if (corner.y > 320) {
           position.innerHTML = "Sudoeste"
         }
-        position.innerHTML = "Oeste"
-      }
-      console.log("corner x:", corner.x + ",corner y:", corner.y);
+        
+      }else position.innerHTML = "Oeste"
+      console.log("corner x:", corner.x + " ,corner y:", corner.y);
     }
   }
 }
