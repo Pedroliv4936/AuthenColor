@@ -121,22 +121,22 @@ function passwordPosition(markers) {
     corners = markers[i].corners;
     for (j = 0; j !== corners.length; j++) {
       corner = corners[j];
-      if (corner.x < 250) {
-        if (corner.y < 180) {
+      if (corner.x < 200) {
+        if (corner.y < 160) {
           position.innerHTML = "Nordeste"
-        } else if (corner.y > 300) {
+        } else if (corner.y > 320) {
           position.innerHTML = "Sudeste"
         } else position.innerHTML = "Este"
-      } else if (corner.x > 250 && corner.x < 350) {
-        if (corner.y < 180) {
+      } else if (corner.x > 200 && corner.x < 500) {
+        if (corner.y < 160) {
           position.innerHTML = "Norte"
-        } else if (corner.y > 300) {
+        } else if (corner.y > 320) {
           position.innerHTML = "Sul"
         } else position.innerHTML = "Centro"
-      } else if (corner.x > 350) {
-        if (corner.y < 180) {
+      } else if (corner.x > 400) {
+        if (corner.y < 160) {
           position.innerHTML = "Noroeste"
-        } else if (corner.y > 300) {
+        } else if (corner.y > 320) {
           position.innerHTML = "Sudoeste"
         }
         else position.innerHTML = "Oeste"
