@@ -1,0 +1,17 @@
+#video{
+    display:none;
+}
+
+#canvas{
+    width:640px; 
+    height:480px;
+}
+#ref{
+    margin: 15px;
+}
+
+#interface{
+    margin: 15px;
+    width: 400px;
+    height: 500px;
+}

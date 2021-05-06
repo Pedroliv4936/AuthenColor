@@ -42,7 +42,6 @@ function onLoad() {
     });
 
   detector = new AR.Detector();
-
   requestAnimationFrame(tick);
 }
 
@@ -55,6 +54,7 @@ function tick() {
     var markers = detector.detect(imageData);
     drawCorners(markers);
     drawId(markers);
+    //drawInterface();
     passwordPosition(markers);
   }
 }
@@ -116,33 +116,38 @@ function drawId(markers) {
 function passwordPosition(markers) {
   var corners, corner;
   var position = document.getElementById("position");
+
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
     for (j = 0; j !== corners.length; j++) {
       corner = corners[j];
-      if (corner.x < 200) {
-        if (corner.y < 160) {
+      if (corner.x < 250) {
+        if (corner.y < 180) {
           position.innerHTML = "Nordeste"
-        } else if (corner.y > 320) {
+        } else if (corner.y > 300) {
           position.innerHTML = "Sudeste"
         } else position.innerHTML = "Este"
-      } else if (corner.x > 200 && corner.x < 400) {
-        if (corner.y < 160) {
+      } else if (corner.x > 250 && corner.x < 350) {
+        if (corner.y < 180) {
           position.innerHTML = "Norte"
-        } else if (corner.y > 320) {
+        } else if (corner.y > 300) {
           position.innerHTML = "Sul"
         } else position.innerHTML = "Centro"
-      } else if (corner.x > 400) {
-        if (corner.y < 160) {
+      } else if (corner.x > 350) {
+        if (corner.y < 180) {
           position.innerHTML = "Noroeste"
-        } else if (corner.y > 320) {
+        } else if (corner.y > 300) {
           position.innerHTML = "Sudoeste"
         }
-        position.innerHTML = "Oeste"
+        else position.innerHTML = "Oeste"
       }
       console.log("corner x:", corner.x + ",corner y:", corner.y);
     }
   }
+}
+
+function test(){
+  window.location.replace('login.html');
 }
 
 
