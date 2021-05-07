@@ -56,6 +56,7 @@ function tick() {
     drawCorners(markers);
     drawId(markers);
     passwordPosition(markers);
+    draw();
   }
 }
 
@@ -113,8 +114,6 @@ function drawId(markers) {
   }
 }
 
-var pos;
-
 function passwordPosition(markers) {
   //alterar para controlar os dois arucos
   var corners, corner;
@@ -162,6 +161,8 @@ function passwordPosition(markers) {
   }
 }
 
+var pos;
+
 function setup() {
   createCanvas(600, 500);
   circle(300, 250, 50); //centro
@@ -179,39 +180,39 @@ function draw() {
   fill(255);
   switch (pos) {
     case "Centro":
-      circle(300, 250, 50);
+      ellipse(300, 250, 50, 50);
       console.log(pos);
       break;
     case "Norte":
-      circle(300, 50, 50);
+      ellipse(300, 50, 50, 50);
       console.log(pos);
       break;
     case "Oeste":
-      circle(100, 240, 50);
+      ellipse(100, 240, 50, 50);
       console.log(pos);
       break;
     case "Noroeste":
-      circle(170, 100, 50);
+      ellipse(170, 100, 50, 50);
       console.log(pos);
       break;
     case "Sudoeste":
-      circle(430, 100, 50);
+      ellipse(430, 100, 50, 50);
       console.log(pos);
       break;
     case "Nordeste":
-      circle(170, 400, 50);
+      ellipse(170, 400, 50, 50);
       console.log(pos);
       break;
     case "Este":
-      circle(430, 400, 50);
+      ellipse(430, 400, 50, 50);
       console.log(pos);
       break;
     case "Sudeste":
-      circle(500, 240, 50);
+      ellipse(500, 240, 50, 50);
       console.log(pos);
       break;
     case "Sul":
-      circle(300, 450, 50);
+      ellipse(300, 450, 50, 50);
       console.log(pos);
       break;
   }
