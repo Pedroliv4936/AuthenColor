@@ -28,7 +28,9 @@ function onLoad() {
 
   navigator.mediaDevices
     .getUserMedia({
-      video: true })
+      video: true || {    facingMode: "environment",
+      aspectRatio: { exact: 1.777777778}
+    }})
     .then(function (stream) {
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -55,6 +57,7 @@ function tick() {
     drawCorners(markers);
     drawId(markers);
     passwordPosition(markers);
+    draw();
   }
 }
 
@@ -111,54 +114,64 @@ function drawId(markers) {
     context.strokeText(markers[i].id, x, y);
   }
 }
-
 var pos;
-
 function passwordPosition(markers) {
   //alterar para controlar os dois arucos
   var corners, corner;
+  var leftcor, rightcor, maincor,topcor,lowcor,alt;
   var position = document.getElementById("position");
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
     for (j = 0; j !== corners.length; j++) {
       corner = corners[j];
-      if (corner.x < 200) {
-        if (corner.y < 160) {
-          position.innerHTML = "Nordeste";
-          pos = "Nordeste";
-        } else if (corner.y > 320) {
-          position.innerHTML = "Sudeste";
-          pos = "Sudeste";
-        } else {
-          position.innerHTML = "Este";
-          pos = "Este";
-        }
-      } else if (corner.x > 200 && corner.x < 400) {
-        if (corner.y < 160) {
-          position.innerHTML = "Norte";
-          pos = "Norte";
-        } else if (corner.y > 320) {
-          position.innerHTML = "Sul";
-          pos = "Sul";
-        } else {
-          position.innerHTML = "Centro";
-          pos = "Centro";
-        }
-      } else if (corner.x > 400) {
-        if (corner.y < 160) {
-          position.innerHTML = "Noroeste";
-          pos = "Noroeste";
-        } else if (corner.y > 320) {
-          position.innerHTML = "Sudoeste";
-          pos = "Sudoeste";
-        }
-      } else {
-        position.innerHTML = "Oeste";
-        pos = "Oeste";
+      console.log("corner x:", corner.x + " ,corner y:", corner.y);
+      if (corner.x < leftcor) {
+        leftcor = corner.x
+      } else if (corner.x > rightcor) {
+        rightcor = corner.x
+      }
+      if (corner.y < lowcor) {
+        lowcor = corner.y
+      } else if (corner.y > topcor) {
+        topcor = corner.y
       }
     }
-    console.log("corner x:", corner.x + " ,corner y:", corner.y);
   }
+  maincor= (leftcor+rightcor)/2;
+  alt=(lowcor+topcor)/2
+  if (maincor < canvas.width / 3) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Nordeste";
+      pos = "Nordeste";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sudeste";
+      pos = "Sudeste";
+    } else {
+      position.innerHTML = "Este";
+      pos = "Este";
+    }
+  } else if (maincor > canvas.width / 3 && maincor < (canvas.width / 3) * 2) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Norte";
+      pos = "Norte";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sul";
+      pos = "Sul";
+    } else {
+      position.innerHTML = "Centro";
+      pos = "Centro";
+    }
+  } else if (maincor > (canvas.width / 3) * 2) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Noroeste";
+      pos = "Noroeste";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sudoeste";
+      pos = "Sudoeste";
+    } else{
+    position.innerHTML = "Oeste";
+    pos = "Oeste";
+  }}
 }
 
 function setup() {
@@ -175,45 +188,49 @@ function setup() {
 }
 
 function draw() {
-  fill(255);
+  fill(128);
   switch (pos) {
     case "Centro":
-      circle(300, 250, 50);
+      ellipse(300, 250, 50, 50);
       console.log(pos);
       break;
     case "Norte":
-      circle(300, 50, 50);
+      ellipse(300, 50, 50, 50);
       console.log(pos);
       break;
     case "Oeste":
-      circle(100, 240, 50);
+      ellipse(100, 240, 50, 50);
       console.log(pos);
       break;
     case "Noroeste":
-      circle(170, 100, 50);
+      ellipse(170, 100, 50, 50);
       console.log(pos);
       break;
     case "Sudoeste":
-      circle(430, 100, 50);
+      ellipse(430, 100, 50, 50);
       console.log(pos);
       break;
     case "Nordeste":
-      circle(170, 400, 50);
+      ellipse(170, 400, 50, 50);
       console.log(pos);
       break;
     case "Este":
-      circle(430, 400, 50);
+      ellipse(430, 400, 50, 50);
       console.log(pos);
       break;
     case "Sudeste":
-      circle(500, 240, 50);
+      ellipse(500, 240, 50, 50);
       console.log(pos);
       break;
     case "Sul":
-      circle(300, 450, 50);
+      ellipse(300, 450, 50, 50);
       console.log(pos);
       break;
   }
+}
+
+function inputCode() {
+
 }
 
 window.onload = onLoad;
