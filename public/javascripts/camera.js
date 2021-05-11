@@ -122,33 +122,33 @@ function passwordPosition(markers) {
     corners = markers[i].corners;
     for (j = 0; j !== corners.length; j++) {
       corner = corners[j];
-      if (corner.x < 200) {
-        if (corner.y < 160) {
+      if (corner.x < canvas.width/3) { 
+        if (corner.y < canvas.height/3) { 
           position.innerHTML = "Nordeste";
           pos = "Nordeste";
-        } else if (corner.y > 320) {
+        } else if (corner.y > (canvas.height/3)*2) {
           position.innerHTML = "Sudeste";
           pos = "Sudeste";
         } else {
           position.innerHTML = "Este";
           pos = "Este";
         }
-      } else if (corner.x > 200 && corner.x < 400) {
-        if (corner.y < 160) {
+      } else if (corner.x > canvas.width/3 && corner.x < (canvas.width/3)*2) {
+        if (corner.y < canvas.height/3) {
           position.innerHTML = "Norte";
           pos = "Norte";
-        } else if (corner.y > 320) {
+        } else if (corner.y > (canvas.height/3)*2) {
           position.innerHTML = "Sul";
           pos = "Sul";
         } else {
           position.innerHTML = "Centro";
           pos = "Centro";
         }
-      } else if (corner.x > 400) {
-        if (corner.y < 160) {
+      } else if (corner.x > (canvas.width/3)*2) {
+        if (corner.y < canvas.height/3) {
           position.innerHTML = "Noroeste";
           pos = "Noroeste";
-        } else if (corner.y > 320) {
+        } else if (corner.y > (canvas.height/3)*2) {
           position.innerHTML = "Sudoeste";
           pos = "Sudoeste";
         }
@@ -177,7 +177,7 @@ function setup() {
 }
 
 function draw() {
-  fill(255);
+  fill(128);
   switch (pos) {
     case "Centro":
       ellipse(300, 250, 50, 50);
