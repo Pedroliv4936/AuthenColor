@@ -28,8 +28,7 @@ function onLoad() {
 
   navigator.mediaDevices
     .getUserMedia({
-      video: true
-    })
+      video: true })
     .then(function (stream) {
       if ("srcObject" in video) {
         video.srcObject = stream;
