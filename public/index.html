@@ -15,9 +15,9 @@
 
   <section style="margin: 10px;" id="title"><strong>-= AuthenColor Testing =-</strong></section>
   <video id="video" autoplay="true" style="display:none;"></video>
-  <canvas id="canvas" style="width:640px; height:480px;"></canvas>
+  <canvas id="canvas" style="width:640px; height:480px; -webkit-transform: scaleX(-1);transform: scaleX(-1);"></canvas>
   <section id="position"> Position of Aruco</section>
-  <button type="button" onclick="test()">Test it!</button>
+  <button type="button" style="display: grid;" onclick="test()">Test it!</button>
   <section style="margin: 15px;" id="ref"><strong>Powered by <a
         href="http://code.google.com/p/js-aruco/">js-aruco</a></strong></section>
 

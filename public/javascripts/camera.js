@@ -1,6 +1,6 @@
 var video, canvas, context, imageData, detector;
 
-function onLoad() {
+function setup() {
   video = document.getElementById("video");
   canvas = document.getElementById("canvas");
   context = canvas.getContext("2d");
@@ -23,14 +23,13 @@ function onLoad() {
       return new Promise(function (resolve, reject) {
         getUserMedia.call(navigator, constraints, resolve, reject);
       });
-    };
+    }
   }
 
   navigator.mediaDevices
     .getUserMedia({
-      video: true || {    facingMode: "environment",
-      aspectRatio: { exact: 1.777777778}
-    }})
+      video: true
+    })
     .then(function (stream) {
       if ("srcObject" in video) {
         video.srcObject = stream;
@@ -45,6 +44,17 @@ function onLoad() {
   detector = new AR.Detector();
 
   requestAnimationFrame(tick);
+
+  createCanvas(600, 500);
+  circle(300, 250, 50); //centro
+  circle(300, 50, 50); //norte
+  circle(100, 240, 50); //oeste
+  circle(170, 100, 50); //noroeste
+  circle(430, 100, 50); //sudoeste
+  circle(170, 400, 50); //nordeste
+  circle(430, 400, 50); //este
+  circle(500, 240, 50); //sudeste
+  circle(300, 450, 50); //sul
 }
 
 function tick() {
@@ -57,7 +67,6 @@ function tick() {
     drawCorners(markers);
     drawId(markers);
     passwordPosition(markers);
-    draw();
   }
 }
 
@@ -115,10 +124,17 @@ function drawId(markers) {
   }
 }
 var pos;
+
 function passwordPosition(markers) {
   //alterar para controlar os dois arucos
   var corners, corner;
-  var leftcor, rightcor, maincor,topcor,lowcor,alt;
+  var leftcor, rightcor, maincor, topcor, lowcor, alt;
+  leftcor=0;
+  rightcor=0;
+  maincor=0;
+  topcor=0;
+  lowcor=0;
+  alt=0;
   var position = document.getElementById("position");
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
@@ -126,56 +142,59 @@ function passwordPosition(markers) {
       corner = corners[j];
       console.log("corner x:", corner.x + " ,corner y:", corner.y);
       if (corner.x < leftcor) {
-        leftcor = corner.x
+        leftcor = corner.x;
       } else if (corner.x > rightcor) {
-        rightcor = corner.x
+        rightcor = corner.x;
       }
       if (corner.y < lowcor) {
-        lowcor = corner.y
+        lowcor = corner.y;
       } else if (corner.y > topcor) {
-        topcor = corner.y
+        topcor = corner.y;
+      }
+    }
+    maincor = (leftcor + rightcor)/2;
+    alt = (lowcor + topcor)/2;
+    if (maincor < canvas.width / 3) {
+      if (alt < canvas.height / 3) {
+        position.innerHTML = "Nordeste";
+        pos = "Nordeste";
+      } else if (alt > (canvas.height / 3) * 2) {
+        position.innerHTML = "Sudeste";
+        pos = "Sudeste";
+      } else {
+        position.innerHTML = "Este";
+        pos = "Este";
+      }
+    } else if (maincor > canvas.width / 3 && maincor < (canvas.width / 3) * 2) {
+      if (alt < canvas.height / 3) {
+        position.innerHTML = "Norte";
+        pos = "Norte";
+      } else if (alt > (canvas.height / 3) * 2) {
+        position.innerHTML = "Sul";
+        pos = "Sul";
+      } else {
+        position.innerHTML = "Centro";
+        pos = "Centro";
+      }
+    } else if (maincor > (canvas.width / 3) * 2) {
+      if (alt < canvas.height / 3) {
+        position.innerHTML = "Noroeste";
+        pos = "Noroeste";
+      } else if (alt > (canvas.height / 3) * 2) {
+        position.innerHTML = "Sudoeste";
+        pos = "Sudoeste";
+      } else {
+        position.innerHTML = "Oeste";
+        pos = "Oeste";
       }
     }
   }
-  maincor= (leftcor+rightcor)/2;
-  alt=(lowcor+topcor)/2
-  if (maincor < canvas.width / 3) {
-    if (alt < canvas.height / 3) {
-      position.innerHTML = "Nordeste";
-      pos = "Nordeste";
-    } else if (alt > (canvas.height / 3) * 2) {
-      position.innerHTML = "Sudeste";
-      pos = "Sudeste";
-    } else {
-      position.innerHTML = "Este";
-      pos = "Este";
-    }
-  } else if (maincor > canvas.width / 3 && maincor < (canvas.width / 3) * 2) {
-    if (alt < canvas.height / 3) {
-      position.innerHTML = "Norte";
-      pos = "Norte";
-    } else if (alt > (canvas.height / 3) * 2) {
-      position.innerHTML = "Sul";
-      pos = "Sul";
-    } else {
-      position.innerHTML = "Centro";
-      pos = "Centro";
-    }
-  } else if (maincor > (canvas.width / 3) * 2) {
-    if (alt < canvas.height / 3) {
-      position.innerHTML = "Noroeste";
-      pos = "Noroeste";
-    } else if (alt > (canvas.height / 3) * 2) {
-      position.innerHTML = "Sudoeste";
-      pos = "Sudoeste";
-    } else{
-    position.innerHTML = "Oeste";
-    pos = "Oeste";
-  }}
 }
 
-function setup() {
+
+/*function setup() {
   createCanvas(600, 500);
+  createCapture
   circle(300, 250, 50); //centro
   circle(300, 50, 50); //norte
   circle(100, 240, 50); //oeste
@@ -185,7 +204,7 @@ function setup() {
   circle(430, 400, 50); //este
   circle(500, 240, 50); //sudeste
   circle(300, 450, 50); //sul
-}
+}*/
 
 function draw() {
   fill(128);
@@ -233,4 +252,4 @@ function inputCode() {
 
 }
 
-window.onload = onLoad;
+//window.onload = onLoad;
