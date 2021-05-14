@@ -42,9 +42,9 @@ function setup() {
     });
 
   detector = new AR.Detector();
-
+  
   requestAnimationFrame(tick);
-
+  
   createCanvas(600, 500);
   circle(300, 250, 50); //centro
   circle(300, 50, 50); //norte
@@ -58,7 +58,6 @@ function setup() {
 }
 
 function tick() {
-  requestAnimationFrame(tick);
 
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     snapshot();
@@ -152,8 +151,8 @@ function passwordPosition(markers) {
         topcor = corner.y;
       }
     }
-    maincor = (leftcor + rightcor)/2;
-    alt = (lowcor + topcor)/2;
+    maincor = leftcor+((rightcor-leftcor)/2);
+    alt = topcor+(lowcor - topcor)/2;
     if (maincor < canvas.width / 3) {
       if (alt < canvas.height / 3) {
         position.innerHTML = "Nordeste";
@@ -207,6 +206,7 @@ function passwordPosition(markers) {
 }*/
 
 function draw() {
+
   fill(128);
   switch (pos) {
     case "Centro":
