@@ -23,7 +23,7 @@ function setup() {
       return new Promise(function (resolve, reject) {
         getUserMedia.call(navigator, constraints, resolve, reject);
       });
-    }
+    };
   }
 
   navigator.mediaDevices
@@ -42,7 +42,7 @@ function setup() {
     });
 
   detector = new AR.Detector();
-
+  
   requestAnimationFrame(tick);
 
   createCanvas(600, 500);
@@ -58,7 +58,6 @@ function setup() {
 }
 
 function tick() {
-  requestAnimationFrame(tick);
 
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     snapshot();
@@ -168,6 +167,7 @@ function passwordPosition(markers) {
 
   if (maincor != 0 && alt != 0) {
     console.log("maincor:" + maincor + "alt:" + alt);
+
     if (maincor < canvas.width / 3) {
       if (alt < canvas.height / 3) {
         position.innerHTML = "Nordeste";
