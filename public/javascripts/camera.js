@@ -23,7 +23,7 @@ function setup() {
       return new Promise(function (resolve, reject) {
         getUserMedia.call(navigator, constraints, resolve, reject);
       });
-    };
+    }
   }
 
   navigator.mediaDevices
@@ -42,7 +42,7 @@ function setup() {
     });
 
   detector = new AR.Detector();
-  
+
   requestAnimationFrame(tick);
 
   createCanvas(600, 500);
@@ -58,6 +58,7 @@ function setup() {
 }
 
 function tick() {
+  requestAnimationFrame(tick);
 
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     snapshot();
