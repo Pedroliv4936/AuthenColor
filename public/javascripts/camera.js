@@ -129,31 +129,45 @@ function passwordPosition(markers) {
   //alterar para controlar os dois arucos
   var corners, corner;
   var leftcor, rightcor, maincor, topcor, lowcor, alt;
-  leftcor=0;
-  rightcor=0;
-  maincor=0;
-  topcor=0;
-  lowcor=0;
-  alt=0;
+  leftcor = 0;
+  rightcor = 1000;
+  maincor = 0;
+  topcor = 10000;
+  lowcor = 0;
+  alt = 0;
+  pos = 0;
   var position = document.getElementById("position");
+
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
     for (j = 0; j !== corners.length; j++) {
       corner = corners[j];
-      console.log("corner x:", corner.x + " ,corner y:", corner.y);
-      if (corner.x < leftcor) {
+      if (corner.x > leftcor) {
         leftcor = corner.x;
-      } else if (corner.x > rightcor) {
+      }
+      if (corner.x < rightcor) {
         rightcor = corner.x;
       }
-      if (corner.y < lowcor) {
+      if (corner.y > lowcor) {
         lowcor = corner.y;
-      } else if (corner.y > topcor) {
+      }
+      if (corner.y < topcor) {
         topcor = corner.y;
       }
     }
-    maincor = (leftcor + rightcor)/2;
-    alt = (lowcor + topcor)/2;
+  }
+
+  console.log("leftcor:" + leftcor + "rightcor:" + rightcor);
+  console.log("low:" + lowcor + "top:" + topcor);
+  if (leftcor != 0 || rightcor != 1000) {
+    maincor = rightcor + ((leftcor - rightcor) / 2);
+  }
+  if (topcor != 10000 || lowcor != 0) {
+    alt = topcor + ((lowcor - topcor) / 2);
+  }
+
+  if (maincor != 0 && alt != 0) {
+    console.log("maincor:" + maincor + "alt:" + alt);
     if (maincor < canvas.width / 3) {
       if (alt < canvas.height / 3) {
         position.innerHTML = "Nordeste";
