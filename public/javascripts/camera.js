@@ -278,9 +278,7 @@ function draw() {
 
 function login() {
   loop=requestAnimationFrame(login);
-  console.log("login chamado");
   if (pos != 0) {
-    console.log("pos:" + pos);
     if (pass.length < 10) {
       if (pos == "Centro") {
         if (past != pos && past != undefined) {
@@ -298,7 +296,7 @@ function login() {
       console.log("pass cifrada:" + pass);
       //cifrar e processar
       cancelAnimationFrame(loop);
-      loop=undefined
+      loop=undefined;
       return pass;
     }
   }
