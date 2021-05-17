@@ -1,4 +1,6 @@
 var video, canvas, context, imageData, detector;
+var pass = [];
+var past;
 
 function setup() {
   video = document.getElementById("video");
@@ -50,10 +52,10 @@ function setup() {
   circle(300, 50, 50); //norte
   circle(100, 240, 50); //oeste
   circle(170, 100, 50); //noroeste
-  circle(430, 100, 50); //sudoeste
-  circle(170, 400, 50); //nordeste
-  circle(430, 400, 50); //este
-  circle(500, 240, 50); //sudeste
+  circle(430, 100, 50); //Nordeste
+  circle(170, 400, 50); //Sudoeste
+  circle(430, 400, 50); //Sudeste
+  circle(500, 240, 50); //este
   circle(300, 450, 50); //sul
 }
 
@@ -132,7 +134,7 @@ function passwordPosition(markers) {
   leftcor = 0;
   rightcor = 1000;
   maincor = 0;
-  topcor = 10000;
+  topcor = 1000;
   lowcor = 0;
   alt = 0;
   pos = 0;
@@ -157,17 +159,15 @@ function passwordPosition(markers) {
     }
   }
 
-  console.log("leftcor:" + leftcor + "rightcor:" + rightcor);
-  console.log("low:" + lowcor + "top:" + topcor);
   if (leftcor != 0 || rightcor != 1000) {
     maincor = rightcor + ((leftcor - rightcor) / 2);
   }
-  if (topcor != 10000 || lowcor != 0) {
+  if (topcor != 1000 || lowcor != 0) {
     alt = topcor + ((lowcor - topcor) / 2);
   }
 
   if (maincor != 0 && alt != 0) {
-    console.log("maincor:" + maincor + "alt:" + alt);
+    //console.log("maincor:" + maincor + "alt:" + alt);
 
     if (maincor < canvas.width / 3) {
       if (alt < canvas.height / 3) {
@@ -222,49 +222,125 @@ function passwordPosition(markers) {
 }*/
 
 function draw() {
+  var c;
+  if(c!=pos && pos!=0){
+    fill(255);
+    circle(300, 250, 50); //centro
+    circle(300, 50, 50); //norte
+    circle(100, 240, 50); //oeste
+    circle(170, 100, 50); //noroeste
+    circle(430, 100, 50); //sudoeste
+    circle(170, 400, 50); //nordeste
+    circle(430, 400, 50); //este
+    circle(500, 240, 50); //sudeste
+    circle(300, 450, 50); //sul
+  }
   fill(128);
   switch (pos) {
     case "Centro":
+      c = pos;
       ellipse(300, 250, 50, 50);
-      console.log(pos);
       break;
     case "Norte":
+      c = pos;
       ellipse(300, 50, 50, 50);
-      console.log(pos);
       break;
     case "Oeste":
+      c = pos;
       ellipse(100, 240, 50, 50);
-      console.log(pos);
       break;
     case "Noroeste":
+      c = pos;
       ellipse(170, 100, 50, 50);
-      console.log(pos);
       break;
     case "Sudoeste":
-      ellipse(430, 100, 50, 50);
-      console.log(pos);
+      c = pos;
+      ellipse(170, 400, 50, 50);
       break;
     case "Nordeste":
-      ellipse(170, 400, 50, 50);
-      console.log(pos);
+      c = pos;
+      ellipse(430, 100, 50, 50);
       break;
     case "Este":
-      ellipse(430, 400, 50, 50);
-      console.log(pos);
+      c = pos;
+      ellipse(500, 240, 50, 50);
       break;
     case "Sudeste":
-      ellipse(500, 240, 50, 50);
-      console.log(pos);
+      c = pos;
+      ellipse(430, 400, 50, 50);
       break;
     case "Sul":
+      c = pos;
       ellipse(300, 450, 50, 50);
-      console.log(pos);
       break;
   }
 }
 
-function inputCode() {
+function login() {
+  loop=requestAnimationFrame(login);
+  console.log("login chamado");
+  if (pos != 0) {
+    console.log("pos:" + pos);
+    if (pass.length < 10) {
+      if (pos == "Centro") {
+        if (past != pos && past != undefined) {
+          console.log("Adicionado:" + past);
+          pass.push(past);
+          past = pos;
+        }
+        past = pos;
+      } else {
+        past = pos;
+      }
+    } else {
+      console.log("pass:" + pass);
+      pass = cifrar(pass);
+      console.log("pass cifrada:" + pass);
+      //cifrar e processar
+      cancelAnimationFrame(loop);
+      loop=undefined
+      return pass;
+    }
+  }
+}
 
+function cifrar(pass) {
+  var code = [];
+  //for para array pass
+  pass.forEach(card => {
+    console.log("card:" + card);
+    switch (card) {
+      /*case "Centro":
+        code.push(0);
+        break;*/
+      case "Norte":
+        code.push(1);
+        break;
+      case "Nordeste":
+        code.push(2);
+        break;
+      case "Este":
+        code.push(3);
+        break;
+      case "Sudeste":
+        code.push(4);
+        break;
+      case "Sul":
+        code.push(5);
+        break;
+      case "Sudoeste":
+        code.push(6);
+        break;
+      case "Oeste":
+        code.push(7);
+        break;
+      case "Noroeste":
+        code.push(8);
+        break;
+    }
+  });
+  console.log(code);
+  return code;
 }
 
 //window.onload = onLoad;
