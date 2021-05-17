@@ -223,7 +223,7 @@ function passwordPosition(markers) {
 
 function draw() {
   var c;
-  if(c!=pos && pos!=0){
+  if (c != pos && pos != 0) {
     fill(255);
     circle(300, 250, 50); //centro
     circle(300, 50, 50); //norte
@@ -277,7 +277,7 @@ function draw() {
 }
 
 function login() {
-  loop=requestAnimationFrame(login);
+  loop = requestAnimationFrame(login);
   if (pos != 0) {
     if (pass.length < 10) {
       if (pos == "Centro") {
@@ -296,8 +296,11 @@ function login() {
       console.log("pass cifrada:" + pass);
       //cifrar e processar
       cancelAnimationFrame(loop);
-      loop=undefined;
-      return pass;
+      loop = undefined;
+      var username = pass.toString().slice(0, 9).replace(/,/g,'');
+      var password = pass.toString().slice(10, 19).replace(/,/g,'');
+      loginDB(username,password);
+      return ;
     }
   }
 }
@@ -339,6 +342,24 @@ function cifrar(pass) {
   });
   console.log(code);
   return code;
+}
+
+async function loginDB(username,password) {
+  check = document.getElementById("check");
+  try {
+    let loginInfo = await $.ajax({
+      url: "/api/cliente/" + username + "/" + password,
+      method: "get",
+      datatType: "json"
+    });
+    if (loginInfo[0] != null) {
+      check.innerHTML = "ACEITE";
+    } else {
+      check.innerHTML = "login incorreto";
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 //window.onload = onLoad;
