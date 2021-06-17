@@ -47,7 +47,8 @@ function setup() {
 
   requestAnimationFrame(tick);
 
-  createCanvas(600, 500);
+  let p5Canva = createCanvas(600, 500);
+  p5Canva.parent('container');
   circle(300, 250, 50); //centro
   circle(300, 50, 50); //norte
   circle(100, 240, 50); //oeste
@@ -64,11 +65,16 @@ function tick() {
 
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     snapshot();
-
+  
     var markers = detector.detect(imageData);
     drawCorners(markers);
     drawId(markers);
     passwordPosition(markers);
+    /*var teste="12345";
+    
+    db= hashCreate(teste);
+    hashCompare("couve",db);
+    hashCompare("12345",db);*/
   }
 }
 
@@ -206,21 +212,6 @@ function passwordPosition(markers) {
   }
 }
 
-
-/*function setup() {
-  createCanvas(600, 500);
-  createCapture
-  circle(300, 250, 50); //centro
-  circle(300, 50, 50); //norte
-  circle(100, 240, 50); //oeste
-  circle(170, 100, 50); //noroeste
-  circle(430, 100, 50); //sudoeste
-  circle(170, 400, 50); //nordeste
-  circle(430, 400, 50); //este
-  circle(500, 240, 50); //sudeste
-  circle(300, 450, 50); //sul
-}*/
-
 function draw() {
   var c;
   if (c != pos && pos != 0) {
@@ -297,10 +288,39 @@ function login() {
       //cifrar e processar
       cancelAnimationFrame(loop);
       loop = undefined;
-      var username = pass.toString().slice(0, 9).replace(/,/g,'');
-      var password = pass.toString().slice(10, 19).replace(/,/g,'');
-      loginDB(username,password);
-      return ;
+      var username = pass.toString().slice(0, 9).replace(/,/g, '');
+      var password = pass.toString().slice(10, 19).replace(/,/g, '');
+      loginDB(username, password);
+      return;
+    }
+  }
+}
+
+function register() {
+  loop = requestAnimationFrame(register);
+  if (pos != 0) {
+    if (pass.length < 10) {
+      if (pos == "Centro") {
+        if (past != pos && past != undefined) {
+          console.log("Adicionado:" + past);
+          pass.push(past);
+          past = pos;
+        }
+        past = pos;
+      } else {
+        past = pos;
+      }
+    } else {
+      console.log("pass:" + pass);
+      pass = cifrar(pass);
+      console.log("pass cifrada:" + pass);
+      //cifrar e processar
+      cancelAnimationFrame(loop);
+      loop = undefined;
+      var username = pass.toString().slice(0, 9).replace(/,/g, '');
+      var password = pass.toString().slice(10, 19).replace(/,/g, '');
+      registerDB(username, password);
+      return;
     }
   }
 }
@@ -344,18 +364,40 @@ function cifrar(pass) {
   return code;
 }
 
-async function loginDB(username,password) {
+async function loginDB(name, pass) {
   check = document.getElementById("check");
+  let user= {username: name, password:pass}
   try {
     let loginInfo = await $.ajax({
-      url: "/api/cliente/" + username + "/" + password,
+      url: "/api/cliente/login/",
       method: "get",
-      datatType: "json"
+      dataType: "json",
+      data: user
     });
     if (loginInfo[0] != null) {
       check.innerHTML = "ACEITE";
     } else {
       check.innerHTML = "login incorreto";
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+async function registerDB(name, pass) {
+  check = document.getElementById("check");
+  let user={username: name, password:pass};
+  console.log("register:"+user);
+  try {
+    let register = await $.ajax({
+      url: "/api/cliente/register",
+      method: "post",
+      dataType: "json",
+      data: user
+    });
+    if (register[0] != null) {
+      check.innerHTML = "Criado novo utilizador";
+    } else {
+      check.innerHTML = "Erro ao criar utilizador";
     }
   } catch (err) {
     console.log(err);
