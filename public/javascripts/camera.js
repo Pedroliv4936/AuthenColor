@@ -1,6 +1,12 @@
 var video, canvas, context, imageData, detector;
 var pass = [];
-var past;
+var past,ativo, start=[];
+/*var Rbaixo = 255;
+var Gbaixo = 255;
+var Bbaixo = 255;
+var Ralto = 0;
+var Galto = 0;
+var Balto = 0;*/
 
 function setup() {
   video = document.getElementById("video");
@@ -65,16 +71,11 @@ function tick() {
 
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     snapshot();
-  
+
     var markers = detector.detect(imageData);
     drawCorners(markers);
     drawId(markers);
     passwordPosition(markers);
-    /*var teste="12345";
-    
-    db= hashCreate(teste);
-    hashCompare("couve",db);
-    hashCompare("12345",db);*/
   }
 }
 
@@ -144,7 +145,9 @@ function passwordPosition(markers) {
   lowcor = 0;
   alt = 0;
   pos = 0;
+  corCaptada = 0;
   var position = document.getElementById("position");
+  var cor = document.getElementById("color");
 
   for (i = 0; i !== markers.length; ++i) {
     corners = markers[i].corners;
@@ -174,42 +177,125 @@ function passwordPosition(markers) {
 
   if (maincor != 0 && alt != 0) {
     //console.log("maincor:" + maincor + "alt:" + alt);
-
-    if (maincor < canvas.width / 3) {
-      if (alt < canvas.height / 3) {
-        position.innerHTML = "Nordeste";
-        pos = "Nordeste";
-      } else if (alt > (canvas.height / 3) * 2) {
-        position.innerHTML = "Sudeste";
-        pos = "Sudeste";
-      } else {
-        position.innerHTML = "Este";
-        pos = "Este";
-      }
-    } else if (maincor > canvas.width / 3 && maincor < (canvas.width / 3) * 2) {
-      if (alt < canvas.height / 3) {
-        position.innerHTML = "Norte";
-        pos = "Norte";
-      } else if (alt > (canvas.height / 3) * 2) {
-        position.innerHTML = "Sul";
-        pos = "Sul";
-      } else {
-        position.innerHTML = "Centro";
-        pos = "Centro";
-      }
-    } else if (maincor > (canvas.width / 3) * 2) {
-      if (alt < canvas.height / 3) {
-        position.innerHTML = "Noroeste";
-        pos = "Noroeste";
-      } else if (alt > (canvas.height / 3) * 2) {
-        position.innerHTML = "Sudoeste";
-        pos = "Sudoeste";
-      } else {
-        position.innerHTML = "Oeste";
-        pos = "Oeste";
+    //buscar cor do cartão
+    getCorCard(leftcor, topcor, markers);
+    getPosicao(maincor,alt);
+    if (pos=="Centro" && cor.innerHTML != " Color of Card") {
+      if(start[0] != cor.innerHTML && ativo!="SIM"){
+      start.push(cor.innerHTML);
+      console.log(start);
+      if(start.length==2){
+        color.innerHTML="Insira o seu código";
+        start=[];
+        ativo="SIM";
+        login();
       }
     }
+    }
   }
+}
+
+function getPosicao(maincor,alt){
+  if (maincor < canvas.width / 3) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Nordeste";
+      pos = "Nordeste";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sudeste";
+      pos = "Sudeste";
+    } else {
+      position.innerHTML = "Este";
+      pos = "Este";
+    }
+  } else if (maincor > canvas.width / 3 && maincor < (canvas.width / 3) * 2) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Norte";
+      pos = "Norte";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sul";
+      pos = "Sul";
+    } else {
+      position.innerHTML = "Centro";
+      pos = "Centro";
+    }
+  } else if (maincor > (canvas.width / 3) * 2) {
+    if (alt < canvas.height / 3) {
+      position.innerHTML = "Noroeste";
+      pos = "Noroeste";
+    } else if (alt > (canvas.height / 3) * 2) {
+      position.innerHTML = "Sudoeste";
+      pos = "Sudoeste";
+    } else {
+      position.innerHTML = "Oeste";
+      pos = "Oeste";
+    }
+  }
+}
+
+function getCorCard(leftcor, topcor, markers) {
+  var cor = document.getElementById("color");
+  for (i = 0; i !== markers.length; ++i) {
+    corners = markers[i].corners;
+  }
+  let imgData = context.getImageData(leftcor + 5, topcor + 5, 10, 10);
+  //console.log((20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 4000)));
+  if (Math.abs(corners[0].x - corners[1].x) < Math.abs(corners[0].y - corners[1].y)) {
+    if (corners[0].y - corners[1].y < 0) {
+      imgData = context.getImageData(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), 10, 10);
+      context.fillRect(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), 10, 10);
+    } else {
+      imgData = context.getImageData(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), 10, 10);
+      context.fillRect(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), 10, 10);
+    }
+  } else {
+    if (corners[0].x - corners[1].x < 0) {
+      imgData = context.getImageData(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), corners[0].y, 10, 10);
+      context.fillRect(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), corners[0].y, 10, 10);
+    } else {
+      imgData = context.getImageData(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), corners[0].y, 10, 10);
+      context.fillRect(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 3000)), corners[0].y, 10, 10);
+    }
+  }
+
+  let R = imgData.data[0];
+  let G = imgData.data[1];
+  let B = imgData.data[2];
+  let A = imgData.data[3];
+  //Verificar pârametros das cores
+  //console.log("Red:", R, "Green:", G, "Blue:", B, "alpha:", A);
+  if (R >= 38 && R <= 117 && G >= 55 && G <= 156 && B >= 147 && B <= 251) {
+    cor.innerHTML = "Blue";
+    corCaptada="Blue";
+  } else if (R >= 139 && R <= 255 && G >= 73 && G <= 152 && B >= 103 && B <= 177) {
+    cor.innerHTML = "Red";
+    corCaptada="Red";
+  }
+    /*else if (R >= 74 && R <= 182 && G >= 89 && G <= 206 && B >= 100 && B <= 206) {
+      cor.innerHTML = "Green";
+      corCaptada="Green";
+    }*/
+  /*else if (R >= 116 && R <= 255 && G >= 114 && G <= 255 && B >= 130 && B <= 229) {
+    cor.innerHTML = "yellow";
+  }*/
+  /*if (R < Rbaixo) {
+    Rbaixo = R;
+  }
+  if (R > Ralto) {
+    Ralto = R;
+  }
+  if (G < Gbaixo) {
+    Gbaixo = G;
+  }
+  if (G > Galto) {
+    Galto = G;
+  }
+  if (B < Bbaixo) {
+    Bbaixo = B;
+  }
+  if (B > Balto) {
+    Balto = B;
+  }
+  console.log("R:" + Rbaixo + "," + Ralto + "g:" + Gbaixo + "," + Galto + "B:" + Bbaixo + "," + Balto);*/
 }
 
 function draw() {
@@ -291,6 +377,8 @@ function login() {
       var username = pass.toString().slice(0, 9).replace(/,/g, '');
       var password = pass.toString().slice(10, 19).replace(/,/g, '');
       loginDB(username, password);
+      pass = [];
+      ativo="Nao";
       return;
     }
   }
@@ -320,6 +408,7 @@ function register() {
       var username = pass.toString().slice(0, 9).replace(/,/g, '');
       var password = pass.toString().slice(10, 19).replace(/,/g, '');
       registerDB(username, password);
+      pass = [];
       return;
     }
   }
@@ -366,7 +455,10 @@ function cifrar(pass) {
 
 async function loginDB(name, pass) {
   check = document.getElementById("check");
-  let user= {username: name, password:pass}
+  let user = {
+    username: name,
+    password: pass
+  }
   try {
     let loginInfo = await $.ajax({
       url: "/api/cliente/login/",
@@ -374,8 +466,10 @@ async function loginDB(name, pass) {
       dataType: "json",
       data: user
     });
-    if (loginInfo[0] != null) {
-      check.innerHTML = "ACEITE";
+    console.log("loginInfo:",loginInfo);
+    if (loginInfo[0] !=  null) {
+      check.innerHTML="ACEITE";
+      window.location ='menu.html'; 
     } else {
       check.innerHTML = "login incorreto";
     }
@@ -385,8 +479,11 @@ async function loginDB(name, pass) {
 }
 async function registerDB(name, pass) {
   check = document.getElementById("check");
-  let user={username: name, password:pass};
-  console.log("register:"+user);
+  let user = {
+    username: name,
+    password: pass
+  };
+  console.log("register:" + user);
   try {
     let register = await $.ajax({
       url: "/api/cliente/register",
