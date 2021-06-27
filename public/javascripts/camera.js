@@ -188,7 +188,7 @@ function passwordPosition(markers) {
         check.innerHTML="Insira o seu código";
         start=[];
         ativo="SIM";
-        login();
+        loginApr();
       }
     }
     }
@@ -377,6 +377,33 @@ function login() {
       var username = pass.toString().slice(0, 9).replace(/,/g, '');
       var password = pass.toString().slice(10, 19).replace(/,/g, '');
       loginDB(username, password);
+      pass = [];
+      ativo="Nao";
+      return;
+    }
+  }
+}
+function loginApr(){
+  loop = requestAnimationFrame(loginApr);
+  if (pos != 0) {
+    if (pass.length < 5) {
+      if (pos == "Centro") {
+        if (past != pos && past != undefined) {
+          console.log("Adicionado:" + past);
+          pass.push(past);
+          past = pos;
+        }
+        past = pos;
+      } else {
+        past = pos;
+      }
+    } else {
+      console.log("pass:" + pass);
+      pass = cifrar(pass);
+      console.log("pass cifrada:" + pass);
+      //cifrar e processar
+      cancelAnimationFrame(loop);
+      window.location="menu.html";
       pass = [];
       ativo="Nao";
       return;
