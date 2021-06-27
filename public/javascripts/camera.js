@@ -185,7 +185,7 @@ function passwordPosition(markers) {
       start.push(cor.innerHTML);
       console.log(start);
       if(start.length==2){
-        color.innerHTML="Insira o seu código";
+        check.innerHTML="Insira o seu código";
         start=[];
         ativo="SIM";
         login();

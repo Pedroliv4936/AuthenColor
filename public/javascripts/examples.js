@@ -1,4 +1,4 @@
-var video, canvas, context, imageData, detector, cor, music, pause, modo, audio;
+var video, canvas, context, imageData, detector, cor, music, pause, modo, audio,slide,num;
 var past = [];
 
 function onLoad() {
@@ -49,6 +49,8 @@ function onLoad() {
     music = "1";
     requestAnimationFrame(tick);
     pause = "Play";
+    slide=1;
+    num=1;
     /*pause="Pausa" ou "Play" music="1","2" ou "null" */
 
 }
@@ -331,6 +333,7 @@ function musicCommands() {
                 case "Sudoeste":
                     audio.pause();
                     modo = "Select";
+                    window.location="menu.html";
                     break;
             }
             past = [];
@@ -342,30 +345,35 @@ function musicCommands() {
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
                     past.push(cor.innerHTML);
                     console.log(past);
+                    image.src="/images/apresentacao/"+slide+".JPG";
                 }
                 break;
             case "Norte":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
                     past.push(cor.innerHTML);
                     console.log(past);
+                    image.src="/images/apresentacao/"+slide+".JPG";
                 }
                 break;
             case "Oeste":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
                     past.push(cor.innerHTML);
                     console.log(past);
+                    image.src="/images/apresentacao/"+slide+".JPG";
                 }
                 break;
             case "Este":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
                     past.push(cor.innerHTML);
                     console.log(past);
+                    image.src="/images/apresentacao/"+slide+".JPG";
                 }
                 break;
             case "Sul":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
                     past.push(cor.innerHTML);
                     console.log(past);
+                    image.src="/images/apresentacao/"+slide+".JPG";
                 }
                 break;
         }
@@ -375,22 +383,93 @@ function musicCommands() {
                 case "Centro":
                     break;
                 case "Norte":
-                    //image.src="/images/apresentacao/"+;
+                    image.src="/images/apresentacao/1.JPG";
                     break;
                 case "Oeste":
-                    image.src="/images/apresentacao/"+(slide-1);
+                    if(slide>1){
+                    slide= (parseInt(slide)-1).toString();
+                    image.src="/images/apresentacao/"+(slide)+".JPG";
+                    console.log("/images/apresentacao/"+(slide)+".JPG");}
                     break;
                 case "Este":
-                    image.src="/images/apresentacao/"+(slide+1);
+                    if(slide<6){
+                    slide=(parseInt(slide)+1).toString();
+                    image.src="/images/apresentacao/"+(slide)+".JPG";
+                    console.log("/images/apresentacao/"+(slide)+".JPG");}
                     break;
                 case "Sul":
+                    menu="Select";
                     window.location = 'menu.html';
                     break;
             }
             past = [];
         }
     } else if (modo == "Loja") {
-
+        document.getElementById("background").style.backgroundColor="white";
+        switch (pos) {
+            case "Centro":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                    image.src="/images/store/"+num+".png";
+                }
+                break;
+            case "Norte":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                    image.src="/images/store/"+num+".png";
+                }
+                break;
+            case "Oeste":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                    image.src="/images/store/"+num+".png";
+                }
+                break;
+            case "Este":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                    image.src="/images/store/"+num+".png";
+                }
+                break;
+            case "Sul":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                    image.src="/images/store/"+num+".png";
+                }
+                break;
+        }
+        //aceita comando
+        if (past.length == 2) {
+            switch (position.innerHTML) {
+                case "Centro":
+                    break;
+                case "Norte":
+                    image.src="/images/store/1.png";
+                    break;
+                case "Oeste":
+                    if(num>1){
+                    num= (parseInt(num)-1).toString();
+                    image.src="/images/store/"+(num)+".png";
+                    console.log("/images/store/"+(num)+".png");}
+                    break;
+                case "Este":
+                    if(num<16){
+                    num=(parseInt(num)+1).toString();
+                    image.src="/images/store/"+(num)+".png";
+                    console.log("/images/store/"+(num)+".png");}
+                    break;
+                case "Sul":
+                    menu="Select";
+                    window.location = 'menu.html';
+                    break;
+            }
+            past = [];
+        }
     } else if (modo == "Select") {
         document.getElementById("background").style.backgroundColor="#202729";
         switch (pos) {
