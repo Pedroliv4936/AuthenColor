@@ -217,6 +217,7 @@ function play(song) {
 function musicCommands() {
     let path = null;
     if (modo == "Music") {
+        document.getElementById("background").style.backgroundColor="#0d0d0d";
         switch (pos) {
             case "Centro":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
@@ -313,7 +314,15 @@ function musicCommands() {
                 case "Este":
                     audio.pause();
                     pause = "Play";
-                    music = "2";
+                    if(music=="2"){
+                        music="1";
+                        play(music);
+                        audio.pause();
+                    } else {
+                        music="2";
+                        play(music);
+                        audio.pause();
+                    }
                     break;
                 case "Sul":
                     audio.volume -= 0.1;
@@ -327,10 +336,63 @@ function musicCommands() {
             past = [];
         }
     } else if (modo == "Presentation") {
-
+        document.getElementById("background").style.backgroundColor="#202729";
+        switch (pos) {
+            case "Centro":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                }
+                break;
+            case "Norte":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                }
+                break;
+            case "Oeste":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                }
+                break;
+            case "Este":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                }
+                break;
+            case "Sul":
+                if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
+                    past.push(cor.innerHTML);
+                    console.log(past);
+                }
+                break;
+        }
+        //aceita comando
+        if (past.length == 2) {
+            switch (position.innerHTML) {
+                case "Centro":
+                    break;
+                case "Norte":
+                    //image.src="/images/apresentacao/"+;
+                    break;
+                case "Oeste":
+                    image.src="/images/apresentacao/"+(slide-1);
+                    break;
+                case "Este":
+                    image.src="/images/apresentacao/"+(slide+1);
+                    break;
+                case "Sul":
+                    window.location = 'menu.html';
+                    break;
+            }
+            past = [];
+        }
     } else if (modo == "Loja") {
 
     } else if (modo == "Select") {
+        document.getElementById("background").style.backgroundColor="#202729";
         switch (pos) {
             case "Centro":
                 if (past[0] != cor.innerHTML && cor.innerHTML != " Color of Card") {
