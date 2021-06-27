@@ -238,22 +238,22 @@ function getCorCard(leftcor, topcor, markers) {
     corners = markers[i].corners;
   }
   let imgData = context.getImageData(leftcor + 5, topcor + 5, 10, 10);
-  //console.log((20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 4000)));
+  //console.log((20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)));
   if (Math.abs(corners[0].x - corners[1].x) < Math.abs(corners[0].y - corners[1].y)) {
     if (corners[0].y - corners[1].y < 0) {
-      imgData = context.getImageData(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), 10, 10);
-      context.fillRect(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), 10, 10);
+      imgData = context.getImageData(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), 10, 10);
+      context.fillRect(corners[0].x, corners[0].y - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), 10, 10);
     } else {
-      imgData = context.getImageData(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), 10, 10);
-      context.fillRect(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), 10, 10);
+      imgData = context.getImageData(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), 10, 10);
+      context.fillRect(corners[0].x, corners[0].y + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), 10, 10);
     }
   } else {
     if (corners[0].x - corners[1].x < 0) {
-      imgData = context.getImageData(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), corners[0].y, 10, 10);
-      context.fillRect(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), corners[0].y, 10, 10);
+      imgData = context.getImageData(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), corners[0].y, 10, 10);
+      context.fillRect(corners[0].x - (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), corners[0].y, 10, 10);
     } else {
-      imgData = context.getImageData(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), corners[0].y, 10, 10);
-      context.fillRect(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 2500)), corners[0].y, 10, 10);
+      imgData = context.getImageData(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), corners[0].y, 10, 10);
+      context.fillRect(corners[0].x + (20 * ((Math.pow(corners[0].x - corners[1].x, 2) + Math.pow(corners[0].y - corners[1].y, 2)) / 1000)), corners[0].y, 10, 10);
     }
   }
 
