@@ -392,7 +392,7 @@ function musicCommands() {
                     console.log("/images/apresentacao/"+(slide)+".JPG");}
                     break;
                 case "Este":
-                    if(slide<6){
+                    if(slide<8){
                     slide=(parseInt(slide)+1).toString();
                     image.src="/images/apresentacao/"+(slide)+".JPG";
                     console.log("/images/apresentacao/"+(slide)+".JPG");}
